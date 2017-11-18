@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>DOTOP</title>
+  <link rel="shortcut icon" href="/web/static/src/img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/web/static/lib/fontawesome/css/font-awesome.css">
+  <link rel="stylesheet" href="/web/static/lib/bootstrap/css/bootstrap.css">
+  <script src="/web/static/lib/jquery/jquery.js" type="text/javascript"></script>
+  <script src="/web/static/lib/bootstrap/js/modal.js"></script>
+  <script src="/web/static/lib/bootstrap/js/tooltip.js"></script>
+  <script src="/web/static/lib/bootstrap/js/dropdown.js"></script>
+  <script type="text/javascript">
+  $(function() {
+      // Little eye
+      $('body').on('mousedown','.o_little_eye',function(ev) {
+          $(ev.target).siblings('input').prop('type','text');
+      });
+      $('body').on('mouseup','.o_little_eye',function(ev) {
+          $(ev.target).siblings('input').prop('type','password');
+      });
+      // db modal
+      $('body').on('click','.o_database_action', function(ev) {
+          ev.preventDefault();
+          var db = $(ev.currentTarget).data('db');
+          var target = $(ev.currentTarget).data('target');
+          $(target).find('input[name=name]').val(db);
+          $(target).modal();
+      });
+      // close modal on submit
+      $('.modal').on('click','input[type="submit"]', function(ev) {
+          var modal  = $(this).parentsUntil('body', '.modal');
+          if (modal.hasClass('o_database_backup')) {
+            $(modal).modal('hide');
+            if (!$('.alert-backup-long').length) {
+              $('.list-group').before("<div class='alert alert-info alert-backup-long'>数据库备份中，请稍候...</div>");              
+            }
+          }
+      });
+  });
+  </script>
+</head>
+
+{% macro master_input() -%}
+  <div class="form-group">
+    {% if insecure %}
+      <input type="hidden" name="master_pwd" class="form-control" value="admin"/>
+    {% else %}
+      <label for="master_pwd" class="control-label">主控密码</label>
+      <input id="master_pwd" type="password" name="master_pwd" class="form-control" required="required" autofocus="autofocus"/>
+    {% endif %}
+  </div>
+{%- endmacro %}
+
+{% macro create_form() -%}
+  <p>运行系统！<br />
+  填写信息创建数据库，稍等后安装你的应用程序</p>
+  {{ master_input() }}
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-12">
+        <label for="name" class="control-label">数据库名称</label>
+        <input id="name" type="text" name="name" class="form-control" required="required" autocomplete="off"/>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-12">
+        <label for="login" class="control-label">邮箱</label>
+        <input id="login" type="text" name="login" class="form-control" required="required" autocomplete="off"/>
+      </div>
+    </div>
+  </div>
+  <div class="form-group has-feedback">
+    <label for="password" class="control-label">密码</label>
+    <input id="password" type="password" name="password" class="form-control" required="required" autocomplete="off"/>
+    <span class="fa fa-eye o_little_eye form-control-feedback" aria-hidden="true" style="cursor: pointer; pointer-events: auto"></span>
+  </div>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="lang" class="control-label">语言</label>
+        <select id="lang" name="lang" class="form-control" required="required" autocomplete="off">
+          {% for lang in langs %}
+              <option {% if lang[0] == "zh_CN" %}selected="selected" {% endif %}value="{{ lang[0] }}">{{ lang[1] }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6">
+          <label for="country" class="control-label">国家</label>
+          <select id="country" name="country_code" class="form-control" autocomplete="off">
+              <option value=""></option>
+            {% for country in countries %}
+              <option {% if country[0] == "cn" %}selected="selected" {% endif %}value="{{ country[0] }}">{{ country[1] }}</option>
+            {% endfor %}
+            </select>
+        </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="checkbox">
+      <label>
+      	<!--
+        <input name="demo" type="checkbox" class="pull-right" value="1">
+        <span>加载演示数据</span>
+        <span class="text-muted"> (Check this box to evaluate dotop)</span>-->
+      </label>
+    </div>
+  </div>
+{%- endmacro %}
+
+<body class="container">
+  <!-- Database List -->
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3 o_database_list">
+      <div class="text-center">
+        <img src="/web/static/src/img/logo2.png" class="img-responsive center-block"/>
+      </div>
+      {% if insecure and databases %}
+      <div class="alert alert-warning">
+      警告！您的数据库未受保护.
+      请 <a href="#" data-toggle="modal" data-target=".o_database_master">设置主控密码</a>
+      使系统安全.
+      </div>
+      {% endif %}
+      {% if error %}
+      <div class="alert alert-danger">{{ error }}</div>
+      {% endif %}
+      {% if databases %}
+        <div class="list-group">
+          {% for db in databases %}
+          <a href="/web?db={{ db }}" class="list-group-item">
+            {{ db }}
+            {% if manage %}
+            <div class="text-right pull-right">
+            <span data-db="{{ db }}" data-target=".o_database_backup" class="o_database_action btn-link"><i class="fa fa-floppy-o fa-fw"></i> 备份</span>
+            <span data-db="{{ db }}" data-target=".o_database_duplicate" class="o_database_action btn-link"><i class="fa fa-files-o fa-fw"></i> 复制</span>
+            <span data-db="{{ db }}" data-target=".o_database_delete" class="o_database_action btn-link"><i class="fa fa-trash-o fa-fw"></i> 删除</span>
+            </div>
+            {% endif %}
+          </a>
+          {% endfor %}
+        </div>
+        {% if manage %}
+        <div class="text-left">
+          <button type="button" data-toggle="modal" data-target=".o_database_create" class="btn btn-sm btn-primary">
+            创建数据库
+          </button>
+          <button type="button" data-toggle="modal" data-target=".o_database_restore" class="btn btn-sm btn-primary">
+            恢复数据库
+          </button>
+          <button type="button" data-toggle="modal" data-target=".o_database_master" class="btn btn-sm btn-primary">
+            设置主控密码
+          </button>
+        </div>
+        {% else %}
+        <div class="text-center">
+          <a href="/web/datapool/manager">管理数据库</a>
+        </div>
+        {% endif %}
+      {% else %}
+        <form role="form" action="/web/datapool/create" method="post">
+          {{ create_form() }}
+          <input type="submit" value="创建数据库" class="btn btn-primary pull-left"/>
+        </form>
+        <a role="button" data-toggle="modal" data-target=".o_database_restore" class="btn btn-link">
+          or 还原数据库
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Create -->
+  <div class="modal fade o_database_create" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form role="form" action="/web/datapool/create" method="post">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="关闭"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">创建数据库</h4>
+          </div>
+          <div class="modal-body">
+            {{ create_form() }}
+          </div>
+          <div class="modal-footer">
+            <input type="submit" value="继续" class="btn btn-primary pull-right"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Restore -->
+  <div class="modal fade o_database_restore" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">恢复数据库</h4>
+        </div>
+        <form id="form_restore_db" role="form" action="/web/datapool/restore" method="post" enctype="multipart/form-data">
+          <div class="modal-body">
+            {{ master_input() }}
+            <div class="form-group">
+              <label for="backup_file" class="control-label">文件</label>
+              <input id="backup_file" type="file" name="backup_file" class="required"/>
+            </div>
+            <div class="form-group">
+              <label for="name" class="control-label">数据库名称</label>
+              <input id="name" type="text" name="name" class="form-control" required="required"/>
+            </div>
+            <div class="form-group">
+                <label for="copy">数据库进行复制或者移植</label>
+                <p class="help-block">为了避免数据库的冲突，系统需要知道数据库是需要复制或者移植，如果你不知道，选择复制数据库</p>
+              <div class="radio">
+                <label>
+                  <input name="copy" type="radio" class="pull-right" value="true" checked="1">
+                  复制数据库
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input name="copy" type="radio" class="pull-right" value="false">
+                  移植数据库
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" value="继续" class="btn btn-primary pull-right"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Master password -->
+  <div class="modal fade o_database_master" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">设置主控密码</h4>
+        </div>
+        <form id="form_change_pwd" role="form" action="/web/datapool/change_password" method="post">
+          <div class="modal-body">
+            <p>在创建、删除、备份和恢复数据库时需要输入主控密码</p>
+            {{ master_input() }}
+            <div class="form-group has-feedback">
+              <label for="master_pwd_new" class="control-label">新的主控密码</label>
+              <input id="master_pwd_new" type="password" name="master_pwd_new" class="form-control" required="required" autocomplete="off"/>
+              <span class="fa fa-eye o_little_eye form-control-feedback" aria-hidden="true" style="cursor: pointer; pointer-events: auto"></span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" value="继续" class="btn btn-primary pull-right"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Duplicate DB -->
+  <div class="modal fade o_database_duplicate" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">复制数据库</h4>
+        </div>
+        <form id="form-duplicate-db" role="form" action="/web/datapool/duplicate" method="post">
+          <div class="modal-body">
+            {{ master_input() }}
+            <div class="form-group">
+              <label for="name" class="control-label">数据库名称</label>
+              <input id="name" type="text" name="name" class="form-control" required="required" readonly="readonly"/>
+            </div>
+            <div class="form-group">
+              <label for="new_name" class="control-label">新的名称</label>
+              <input id="new_name" type="text" name="new_name" class="form-control" required="required"/>
+            </div>
+          </div>
+          <div class="modal-footer">
+          <input type="submit" value="继续" class="btn btn-primary pull-right"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drop DB -->
+  <div class="modal fade o_database_delete" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">删除数据库</h4>
+        </div>
+        <form id="form_drop_db" role="form" action="/web/datapool/drop" method="post">
+          <div class="modal-body">
+            {{ master_input() }}
+            <div class="form-group">
+              <label for="name" class="control-label">数据库名称</label>
+              <input id="name" type="text" name="name" class="form-control" required="required" readonly="readonly"/>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" value="删除" class="btn btn-primary pull-right"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Backup DB -->
+  <div class="modal fade o_database_backup" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">备份数据库</h4>
+        </div>
+        <form id="form_backup_db" role="form" action="/web/datapool/backup" method="post">
+          <div class="modal-body">
+            {{ master_input() }}
+            <div class="form-group">
+              <label for="name" class="control-label">数据库名称</label>
+              <input id="name" type="text" name="name" class="form-control" required="required" readonly="readonly"/>
+            </div>
+            <div class="form-group">
+              <label for="backup_format" class="control-label">备份格式</label>
+              <select id="backup_format" name="backup_format" id="backup_format" class="form-control" required="required">
+                <option value="zip">压缩文件</option>
+                <option value="dump">数据库文件</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+          <input type="submit" value="备份" class="btn btn-primary pull-right"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

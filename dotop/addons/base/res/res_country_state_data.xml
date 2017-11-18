@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <dotop>
+    <data noupdate="1">
+    	<!-- 省份 -->
+        <record id="res_country_state_110000" model="res.country.state">
+            <field name="name">北京</field>
+            <field name="code">110000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_120000" model="res.country.state">
+            <field name="name">天津</field>
+            <field name="code">120000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_130000" model="res.country.state">
+            <field name="name">河北省</field>
+            <field name="code">130000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_140000" model="res.country.state">
+            <field name="name">山西省</field>
+            <field name="code">140000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_150000" model="res.country.state">
+            <field name="name">内蒙古自治区</field>
+            <field name="code">150000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_210000" model="res.country.state">
+            <field name="name">辽宁省</field>
+            <field name="code">210000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_220000" model="res.country.state">
+            <field name="name">吉林省</field>
+            <field name="code">220000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_230000" model="res.country.state">
+            <field name="name">黑龙江省</field>
+            <field name="code">230000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_310000" model="res.country.state">
+            <field name="name">上海</field>
+            <field name="code">310000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_320000" model="res.country.state">
+            <field name="name">江苏省</field>
+            <field name="code">320000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_330000" model="res.country.state">
+            <field name="name">浙江省</field>
+            <field name="code">330000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_340000" model="res.country.state">
+            <field name="name">安徽省</field>
+            <field name="code">340000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_350000" model="res.country.state">
+            <field name="name">福建省</field>
+            <field name="code">350000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_360000" model="res.country.state">
+            <field name="name">江西省</field>
+            <field name="code">360000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_370000" model="res.country.state">
+            <field name="name">山东省</field>
+            <field name="code">370000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_410000" model="res.country.state">
+            <field name="name">河南省</field>
+            <field name="code">410000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_420000" model="res.country.state">
+            <field name="name">湖北省</field>
+            <field name="code">420000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_430000" model="res.country.state">
+            <field name="name">湖南省</field>
+            <field name="code">430000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_440000" model="res.country.state">
+            <field name="name">广东省</field>
+            <field name="code">440000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_450000" model="res.country.state">
+            <field name="name">广西壮族自治区</field>
+            <field name="code">450000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_460000" model="res.country.state">
+            <field name="name">海南省</field>
+            <field name="code">460000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_500000" model="res.country.state">
+            <field name="name">重庆</field>
+            <field name="code">500000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_510000" model="res.country.state">
+            <field name="name">四川省</field>
+            <field name="code">510000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_520000" model="res.country.state">
+            <field name="name">贵州省</field>
+            <field name="code">520000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_530000" model="res.country.state">
+            <field name="name">云南省</field>
+            <field name="code">530000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_540000" model="res.country.state">
+            <field name="name">西藏自治区</field>
+            <field name="code">540000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_610000" model="res.country.state">
+            <field name="name">陕西省</field>
+            <field name="code">610000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_620000" model="res.country.state">
+            <field name="name">甘肃省</field>
+            <field name="code">620000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_630000" model="res.country.state">
+            <field name="name">青海省</field>
+            <field name="code">630000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_640000" model="res.country.state">
+            <field name="name">宁夏回族自治区</field>
+            <field name="code">640000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_650000" model="res.country.state">
+            <field name="name">新疆维吾尔自治区</field>
+            <field name="code">650000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_710000" model="res.country.state">
+            <field name="name">台湾</field>
+            <field name="code">710000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_810000" model="res.country.state">
+            <field name="name">香港特别行政区</field>
+            <field name="code">810000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+        <record id="res_country_state_820000" model="res.country.state">
+            <field name="name">澳门特别行政区</field>
+            <field name="code">820000</field>
+            <field name="country_id" ref="base.cn"/>
+        </record>
+    </data>
+</dotop>
