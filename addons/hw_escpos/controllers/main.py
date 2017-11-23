@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# Part of dotop. See LICENSE file for full copyright and licensing details.
 
 import commands
 import logging
@@ -100,8 +99,12 @@ class EscposDriver(Thread):
   
         printers = self.connected_usb_devices()
         if len(printers) > 0:
-            self.set_status('connected','Connected to '+printers[0]['name'])
-            return Usb(printers[0]['vendor'], printers[0]['product'])
+            print_dev = Usb(printers[0]['vendor'], printers[0]['product'])
+            self.set_status(
+                'connected',
+                "Connected to %s (in=0x%02x,out=0x%02x)" % (printers[0]['name'], print_dev.in_ep, print_dev.out_ep)
+            )
+            return print_dev
         else:
             self.set_status('disconnected','Printer Not Found')
             return None
