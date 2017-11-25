@@ -17,10 +17,10 @@ if [ -z "${WIRED_IP}" ] ; then
 	# we cannot scan for networks while in Master mode
 	# so first scan and save the networks to a list
 	iwlist wlan0 scan | grep 'ESSID:' | sed 's/.*ESSID:"\(.*\)"/\1/' > /tmp/scanned_networks.txt
-	for iw_list in `awk -F: '/\/bin\/bash$/{print $1}' /tmp/scanned_networks.txt`
+	
+	for str in `/tmp/scanned_networks.txt`;
 	do
-       echo "$iw_list"
-       #使用字符串变量 user 就行了
+    	echo $iw_list;
 	done
 
 	# only do it when there is a wireless interface
