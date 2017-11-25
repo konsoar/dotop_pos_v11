@@ -160,6 +160,7 @@ class PosboxHomepage(dotop.addons.web.controllers.main.Home):
 
     @http.route('/wifi_connect', type='http', auth='none', cors='*')
     def connect_to_wifi(self, essid, password, persistent=False):
+        return "start connecting " 
         if persistent:
                 persistent = "1"
         else:
