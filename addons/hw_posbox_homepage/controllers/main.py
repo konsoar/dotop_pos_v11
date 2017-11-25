@@ -100,7 +100,7 @@ class PosboxHomepage(dotop.addons.web.controllers.main.Home):
         Currently only Open and WPA networks are supported. When enabling the persistent checkbox,
         the chosen network will be saved and the posbox will attempt to connect to it every time it boots.
         </p>
-        <form action='/wifi_connect' method='POST' >
+        <form action='/wifi_connect' method='POST'>
             <table>
                 <tr>
                     <td>
@@ -141,9 +141,6 @@ class PosboxHomepage(dotop.addons.web.controllers.main.Home):
                 <tr>
                     <td/>
                     <td>
-                        <input type="hidden"  name="csrf_token" value="""+request.csrf_token()+"""/>
-                    </td>
-                    <td>
                         <input type="submit" value="connect"/>
                     </td>
                 </tr>
@@ -161,7 +158,7 @@ class PosboxHomepage(dotop.addons.web.controllers.main.Home):
 """
         return wifi_template
 
-    @http.route('/wifi_connect', type='http', auth='none', cors='*')
+    @http.route('/wifi_connect', type='http', auth='none', cors='*',csrf=False)
     def connect_to_wifi(self, essid, password, persistent=False):
         if persistent:
                 persistent = "1"
