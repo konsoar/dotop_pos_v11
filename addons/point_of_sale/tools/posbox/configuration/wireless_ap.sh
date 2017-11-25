@@ -17,20 +17,13 @@ if [ -z "${WIRED_IP}" ] ; then
 	# we cannot scan for networks while in Master mode
 	# so first scan and save the networks to a list
 	iwlist wlan0 scan | grep 'ESSID:' | sed 's/.*ESSID:"\(.*\)"/\1/' > /tmp/scanned_networks.txt
-	
-	for str in `/home/pi/wifi_network.txt`;
-	do
-    	echo $iw_list;
-	done
-	
+
 	logger -t posbox_connect_to_wifi "wireless_ap to 111  ${iw_list}"
 	# only do it when there is a wireless interface
-	if [ -n "$(iw_list)" ] ; then
-		logger -t posbox_connect_to_wifi "wireless_ap to 222"
-		if [ -f "${WIFI_NETWORK_FILE}" ] && [ -z "${FORCE_HOST_AP}" ] ; then
+	if [ -f "${WIFI_NETWORK_FILE}" ] && [ -z "${FORCE_HOST_AP}" ] ; then
 			logger -t posbox_wireless_ap "Loading persistently saved setting"
 			/home/pi/dotop/addons/point_of_sale/tools/posbox/configuration/connect_to_wifi.sh &
-		else
+	else
 			logger -t posbox_connect_to_wifi "wireless_ap to 333"
 			logger -t posbox_wireless_ap "Starting AP"
 
@@ -41,12 +34,9 @@ if [ -z "${WIRED_IP}" ] ; then
 			service isc-dhcp-server restart
 
 			service dotop restart
-		fi
+	fi
 			logger -t posbox_connect_to_wifi "wireless_ap to 444"
 	# no wired, no wireless
-	else
-		logger -t posbox_connect_to_wifi "wireless_ap to 555"
-		service dotop restart
 	fi
 # wired
 else
