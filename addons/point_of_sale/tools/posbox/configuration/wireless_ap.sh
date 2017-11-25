@@ -17,9 +17,14 @@ if [ -z "${WIRED_IP}" ] ; then
 	# we cannot scan for networks while in Master mode
 	# so first scan and save the networks to a list
 	iwlist wlan0 scan | grep 'ESSID:' | sed 's/.*ESSID:"\(.*\)"/\1/' > /tmp/scanned_networks.txt
+	for iw_list in `awk -F: '/\/bin\/bash$/{print $1}' /tmp/scanned_networks.txt`
+	do
+       echo "$iw_list"
+       #使用字符串变量 user 就行了
+	done
 
 	# only do it when there is a wireless interface
-	if [ -n "$(iw list)" ] ; then
+	if [ -n "$(iw_list)" ] ; then
 		if [ -f "${WIFI_NETWORK_FILE}" ] && [ -z "${FORCE_HOST_AP}" ] ; then
 			logger -t posbox_wireless_ap "Loading persistently saved setting"
 			/home/pi/dotop/addons/point_of_sale/tools/posbox/configuration/connect_to_wifi.sh &
