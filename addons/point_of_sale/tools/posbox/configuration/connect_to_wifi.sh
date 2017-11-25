@@ -44,14 +44,14 @@ function connect () {
 	sudo ifconfig wlan0 down
 	sudo ifconfig wlan0 0.0.0.0  # this is how you clear the interface's configuration
 	sudo ifconfig wlan0 up
-
+	logger -t posbox_connect_to_wifi "Connecting to 111"
 	if [ -z "${PASSWORD}" ] ; then
 		sudo iwconfig wlan0 essid "${ESSID}"
 	else
 		sudo wpa_passphrase "${ESSID}" "${PASSWORD}" > "${WPA_PASS_FILE}"
 		sudo wpa_supplicant -B -i wlan0 -c "${WPA_PASS_FILE}"
 	fi
-
+	logger -t posbox_connect_to_wifi "Connecting to 222"
 	sudo service dhcpcd restart
 
 	# give dhcp some time
@@ -74,7 +74,7 @@ function connect () {
 		if [ ${WIFI_WAS_LOST} -eq 0 ] ; then
 			touch "${LOST_WIFI_FILE}"
 		fi
-
+		logger -t posbox_connect_to_wifi "Connecting to 333"
 		logger -t posbox_connect_to_wifi "Starting wifi keep alive script"
 		/home/pi/dotop/addons/point_of_sale/tools/posbox/configuration/keep_wifi_alive.sh &
 	fi
