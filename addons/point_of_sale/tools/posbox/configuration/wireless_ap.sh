@@ -22,13 +22,15 @@ if [ -z "${WIRED_IP}" ] ; then
 	do
     	echo $iw_list;
 	done
-
+	logger -t posbox_connect_to_wifi "wireless_ap to 111"
 	# only do it when there is a wireless interface
 	if [ -n "$(iw_list)" ] ; then
+		logger -t posbox_connect_to_wifi "wireless_ap to 222"
 		if [ -f "${WIFI_NETWORK_FILE}" ] && [ -z "${FORCE_HOST_AP}" ] ; then
 			logger -t posbox_wireless_ap "Loading persistently saved setting"
 			/home/pi/dotop/addons/point_of_sale/tools/posbox/configuration/connect_to_wifi.sh &
 		else
+			logger -t posbox_connect_to_wifi "wireless_ap to 333"
 			logger -t posbox_wireless_ap "Starting AP"
 
 			service hostapd restart
@@ -39,11 +41,14 @@ if [ -z "${WIRED_IP}" ] ; then
 
 			service dotop restart
 		fi
+			logger -t posbox_connect_to_wifi "wireless_ap to 444"
 	# no wired, no wireless
 	else
+		logger -t posbox_connect_to_wifi "wireless_ap to 555"
 		service dotop restart
 	fi
 # wired
 else
+	logger -t posbox_connect_to_wifi "wireless_ap to 666"
 	service dotop restart
 fi
