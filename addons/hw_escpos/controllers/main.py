@@ -196,6 +196,7 @@ class EscposDriver(Thread):
         ssid = subprocess.check_output('iwconfig 2>&1 | grep \'ESSID:"\' | sed \'s/.*"\\(.*\\)"/\\1/\'', shell=True).rstrip()
         mac = subprocess.check_output('ifconfig | grep -B 1 \'inet addr\' | grep -o \'HWaddr .*\' | sed \'s/HWaddr //\'', shell=True).rstrip()
         #ips =  [ c.split(':')[1].split(' ')[0] for c in commands.getoutput("/sbin/ifconfig").split('\n') if 'inet addr' in c ]
+        ##原有字符串拆解格式不正确
         ips = [ c.strip().split(' ')[1] for c in commands.getoutput("/sbin/ifconfig").split('\n') if 'inet ' in c ]
         ips =  [ ip for ip in ips if ip not in localips ] 
         eprint.text('\n\n')
