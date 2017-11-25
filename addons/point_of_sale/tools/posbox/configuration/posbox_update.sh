@@ -9,6 +9,7 @@ sudo chown pi:pi /var/log/dotop
 sudo chown pi:pi -R /home/pi/dotop/
 sudo chmod 770 -R /home/pi/dotop/
 
+
 sudo telinit 1
 sudo mount -o remount,ro /
 (sleep 5 && sudo reboot) &
