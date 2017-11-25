@@ -135,14 +135,14 @@ class HardwareScreen(web.Home):
             <html>
                 <head>
                 <title class="origin">dotop -- Point of Sale</title>
-                <script type="text/javascript" class="origin" src="http://""" + my_ip_port + """/web/static/lib/jquery/jquery.js" >
+                <script type="text/javascript" class="origin" src="../web/static/lib/jquery/jquery.js" >
                 </script>
                 <script type="text/javascript" class="origin">
                     """ + cust_js + """
                 </script>
-                <link rel="stylesheet" class="origin" href="http://""" + my_ip_port + """/web/static/lib/bootstrap/css/bootstrap.css" >
+                <link rel="stylesheet" class="origin" href="../web/static/lib/bootstrap/css/bootstrap.css" >
                 </link>
-                <script class="origin" src="http://""" + my_ip_port + """/web/static/lib/bootstrap/js/bootstrap.min.js"></script>
+                <script class="origin" src="../web/static/lib/bootstrap/js/bootstrap.min.js"></script>
                 <style class="origin">
                     """ + cust_css + """
                 </style>
