@@ -13,5 +13,4 @@ sudo chmod 770 -R /home/pi/dotop/
 sudo telinit 1
 sudo mount -o remount,ro /
 
-sudo service dotop restart
-#(sleep 5 && sudo reboot) &
+(sleep 5 && sudo reboot) &
