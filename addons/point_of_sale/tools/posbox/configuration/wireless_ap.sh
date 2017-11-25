@@ -18,7 +18,7 @@ if [ -z "${WIRED_IP}" ] ; then
 	# so first scan and save the networks to a list
 	iwlist wlan0 scan | grep 'ESSID:' | sed 's/.*ESSID:"\(.*\)"/\1/' > /tmp/scanned_networks.txt
 	
-	for str in `/tmp/scanned_networks.txt`;
+	for str in `/home/pi/tmp/wifi_network.txt`;
 	do
     	echo $iw_list;
 	done
