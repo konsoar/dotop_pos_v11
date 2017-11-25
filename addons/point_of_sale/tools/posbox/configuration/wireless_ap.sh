@@ -22,7 +22,8 @@ if [ -z "${WIRED_IP}" ] ; then
 	do
     	echo $iw_list;
 	done
-	logger -t posbox_connect_to_wifi "wireless_ap to 111"
+	
+	logger -t posbox_connect_to_wifi "wireless_ap to 111  ${iw_list}"
 	# only do it when there is a wireless interface
 	if [ -n "$(iw_list)" ] ; then
 		logger -t posbox_connect_to_wifi "wireless_ap to 222"
