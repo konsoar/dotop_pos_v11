@@ -39,16 +39,20 @@ function connect () {
 	logger -t posbox_connect_to_wifi "Connecting to ${ESSID}"
 	sudo service hostapd stop
 	sudo service isc-dhcp-server stop
+	logger -t posbox_connect_to_wifi "Connecting to XXXX ---10099"
 
 	sudo pkill wpa_supplicant
 	sudo ifconfig wlan0 down
 	sudo ifconfig wlan0 0.0.0.0  # this is how you clear the interface's configuration
 	sudo ifconfig wlan0 up
+	logger -t posbox_connect_to_wifi "Connecting to XXXX ---10000"
 	if [ -z "${PASSWORD}" ] ; then
 		sudo iwconfig wlan0 essid "${ESSID}"
+		logger -t posbox_connect_to_wifi "Connecting to XXXX ---10001"
 	else
 		sudo wpa_passphrase "${ESSID}" "${PASSWORD}" > "${WPA_PASS_FILE}"
 		sudo wpa_supplicant -B -i wlan0 -c "${WPA_PASS_FILE}"
+		logger -t posbox_connect_to_wifi "Connecting to XXXX ---10002"
 	fi
 	sudo service dhcpcd restart
 
