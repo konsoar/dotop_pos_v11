@@ -39,30 +39,24 @@ function connect () {
 	logger -t posbox_connect_to_wifi "Connecting to ${ESSID}"
 	sudo service hostapd stop
 	sudo service isc-dhcp-server stop
-	logger -t posbox_connect_to_wifi "Connecting to XXXX ---10099"
 
 	sudo pkill wpa_supplicant
 	sudo ifconfig wlan0 down
 	#sudo iwconfig wlan0 mode ad-hoc
 	sudo ifconfig wlan0 0.0.0.0  # this is how you clear the interface's configuration
 	sudo ifconfig wlan0 up
-	logger -t posbox_connect_to_wifi "Connecting to XXXX ---10000"
+
 	if [ -z "${PASSWORD}" ] ; then
 		sudo iwconfig wlan0 essid "${ESSID}"
-		logger -t posbox_connect_to_wifi "Connecting to XXXX ---10001"
 	else
 		sudo wpa_passphrase "${ESSID}" "${PASSWORD}" > "${WPA_PASS_FILE}"
 		sudo wpa_supplicant -B -i wlan0 -c "${WPA_PASS_FILE}"
-		logger -t posbox_connect_to_wifi "Connecting to XXXX ---10002"
 	fi
-	logger -t posbox_connect_to_wifi "Connecting to XXXX ---ACCOUNT: ${ESSID} ${PASSWORD} "
 	sudo systemctl daemon-reload
 	sudo service dhcpcd restart
 	# give dhcp some time
 	timeout 30 sh -c 'until ifconfig wlan0 | grep "inet" ; do sleep 0.1 ; done'
 	TIMEOUT_RETURN=$?
-	logger -t posbox_connect_to_wifi "Connecting to XXXX ${TIMEOUT_RETURN}"
-	logger -t posbox_connect_to_wifi "Connecting to test ifconfig $(ifconfig wlan0)"
 	if [ ${TIMEOUT_RETURN} -eq 124 ] && [ -z "${NO_AP}" ] ; then
 		logger -t posbox_connect_to_wifi "Failed to connect, forcing Posbox AP"
 		sudo /home/pi/dotop/addons/point_of_sale/tools/posbox/configuration/wireless_ap.sh "force" &
