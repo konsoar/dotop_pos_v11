@@ -56,9 +56,10 @@ function connect () {
 		logger -t posbox_connect_to_wifi "Connecting to XXXX ---10002"
 	fi
 	logger -t posbox_connect_to_wifi "Connecting to XXXX ---ACCOUNT: ${ESSID} ${PASSWORD} "
+	sudo systemctl daemon-reload
 	sudo service dhcpcd restart
 	# give dhcp some time
-	timeout 60 sh -c 'until ifconfig wlan0 | grep "inet" ; do sleep 0.1 ; done'
+	timeout 30 sh -c 'until ifconfig wlan0 | grep "inet" ; do sleep 0.1 ; done'
 	TIMEOUT_RETURN=$?
 	logger -t posbox_connect_to_wifi "Connecting to XXXX ${TIMEOUT_RETURN}"
 	logger -t posbox_connect_to_wifi "Connecting to test ifconfig $(ifconfig wlan0)"
