@@ -43,6 +43,7 @@ function connect () {
 
 	sudo pkill wpa_supplicant
 	sudo ifconfig wlan0 down
+	sudo iwconfig wlan0 mode ad-hoc
 	sudo ifconfig wlan0 0.0.0.0  # this is how you clear the interface's configuration
 	sudo ifconfig wlan0 up
 	logger -t posbox_connect_to_wifi "Connecting to XXXX ---10000"
@@ -58,6 +59,7 @@ function connect () {
 
 	# give dhcp some time
 	timeout 30 sh -c 'until ifconfig wlan0 | grep "inet" ; do sleep 0.1 ; done'
+	logger -t posbox_connect_to_wifi "Connecting to XXXX ${ ifconfig wlan0 | grep "inet"}"
 	TIMEOUT_RETURN=$?
 	logger -t posbox_connect_to_wifi "Connecting to XXXX ${TIMEOUT_RETURN}"
 	if [ ${TIMEOUT_RETURN} -eq 124 ] && [ -z "${NO_AP}" ] ; then
