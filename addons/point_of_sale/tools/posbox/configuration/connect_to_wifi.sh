@@ -57,11 +57,11 @@ function connect () {
 	fi
 	logger -t posbox_connect_to_wifi "Connecting to XXXX ---ACCOUNT: ${ESSID} ${PASSWORD} "
 	sudo service dhcpcd restart
-	logger -t posbox_connect_to_wifi "Connecting to test ifconfig ${ ifconfig wlan0}"
 	# give dhcp some time
-	timeout 30 sh -c 'until ifconfig wlan0 | grep "inet" ; do sleep 0.1 ; done'
+	timeout 60 sh -c 'until ifconfig wlan0 | grep "inet" ; do sleep 0.1 ; done'
 	TIMEOUT_RETURN=$?
 	logger -t posbox_connect_to_wifi "Connecting to XXXX ${TIMEOUT_RETURN}"
+	logger -t posbox_connect_to_wifi "Connecting to test ifconfig $(ifconfig wlan0)"
 	if [ ${TIMEOUT_RETURN} -eq 124 ] && [ -z "${NO_AP}" ] ; then
 		logger -t posbox_connect_to_wifi "Failed to connect, forcing Posbox AP"
 		sudo /home/pi/dotop/addons/point_of_sale/tools/posbox/configuration/wireless_ap.sh "force" &
