@@ -21,7 +21,7 @@ class Homepage(homepage.PosboxHomepage):
     def get_hw_screen_message(self):
         return """
 <p>
-If you need to display the current customer basket on another device, you can do it <a href='/point_of_sale/display'>here</a>.
+如果需要在其他设备中显示当前收银机信息，<a href='/point_of_sale/display'>可以点击这里</a>。
 </p>
 """
 
@@ -90,7 +90,7 @@ class HardwareScreen(web.Home):
             if HardwareScreen.failure_count[request_addr] > 0:
                 time.sleep(10)
             HardwareScreen.failure_count[request_addr] += 1
-            return {'rendered_html': """<div class="pos-customer_facing_display"><p>Not Authorized. Another browser is in use to display for the client. Please refresh.</p></div> """,
+            return {'rendered_html': """<div class="pos-customer_facing_display"><p>没有授权。另一个浏览器在使用客户端显示，请刷新。</p></div> """,
                     'stop_longpolling': True,
                     'ip_from': request_addr}
 
@@ -100,8 +100,9 @@ class HardwareScreen(web.Home):
             HardwareScreen.event_data.clear()
             HardwareScreen.failure_count[request_addr] = 0
             return result
-        return {'rendered_html': False,
-                'ip_from': HardwareScreen.pos_client_data['ip_from']}
+#         return {'rendered_html': False,
+#                 'ip_from': HardwareScreen.pos_client_data['ip_from']}
+        return result
 
     def _get_html(self):
         cust_js = None
@@ -134,7 +135,8 @@ class HardwareScreen(web.Home):
             <!DOCTYPE html>
             <html>
                 <head>
-                <title class="origin">dotop -- Point of Sale</title>
+                <meta http-equiv="content-type" content="text/html; charset=utf-8">
+                <title class="origin">智慧企业-收银机</title>
                 <script type="text/javascript" class="origin" src="../web/static/lib/jquery/jquery.js" >
                 </script>
                 <script type="text/javascript" class="origin">
@@ -152,19 +154,19 @@ class HardwareScreen(web.Home):
                     <div class="container">
                     <div class="row">
                         <div class="col-md-4 col-md-offset-4">
-                            <h1>dotop Point of Sale</h1>
-                            <h2>POSBox Client display</h2>
-                            <h3>My IPs</h3>
+                            <h1>智慧企业-收银机</h1>
+                            <h2>收银机信息</h2>
+                            <h3>IP地址</h3>
                                 <table id="table_ip" class="table table-condensed">
                                     <tr>
-                                        <th>Interface</th>
+                                        <th>网卡</th>
                                         <th>IP</th>
-                                        <th>Netmask</th>
+                                        <th>子网掩码</th>
                                     </tr>
                                     """ + display_ifaces + """
                                 </table>
-                            <p>The customer cart will be displayed here once a Point of Sale session is started.</p>
-                            <p>dotop version 11 or above is required.</p>
+                            <p>一旦开始零售会话，客户购物车内容将在这里显示。</p>
+                            <p>智慧企业V11 或者更高版本。</p>
                         </div>
                     </div>
                     </div>
