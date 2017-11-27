@@ -99,9 +99,8 @@ class HardwareScreen(web.Home):
         if HardwareScreen.event_data.wait(28):
             HardwareScreen.event_data.clear()
             HardwareScreen.failure_count[request_addr] = 0
-            return result
-#         return {'rendered_html': False,
-#                 'ip_from': HardwareScreen.pos_client_data['ip_from']}
+            return {'rendered_html': False,
+                    'ip_from': HardwareScreen.pos_client_data['ip_from']}
         return result
 
     def _get_html(self):

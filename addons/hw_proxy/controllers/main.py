@@ -7,6 +7,9 @@ import time
 
 from dotop import http
 from dotop.http import request
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 _logger = logging.getLogger(__name__)
 
