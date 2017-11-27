@@ -16,7 +16,8 @@ upgrade_template = """
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>dotop's PosBox - Software Upgrade</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>智慧企业-收银机系统更新</title>
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <script>
         $(function(){
@@ -62,21 +63,13 @@ upgrade_template = """
         </style>
     </head>
     <body>
-        <h1>PosBox Software Upgrade</h1>
+        <h1>收银机系统更新</h1>
+        <p> 通过网络来更新升级智慧企业-收银机系统。<p>
         <p>
-        This tool will help you perform an upgrade of the PosBox's software over the
-	internet. 
-	<p></p>
-        However the preferred method to upgrade the posbox is to flash the sd-card with
-        the <a href='http://nightly.dotop.com/trunk/posbox/'>latest image</a>. The upgrade
-        procedure is explained into to the
-        <a href='https://www.dotop.com/documentation/user/point_of_sale/posbox/index.html'>PosBox manual</a>
+        点击【升级】按钮，可以升级收银机系统。更新预计会花费几分钟， 在此期间<b>请不要重启收银机或者断电</b> 
         </p>
         <p>
-        To upgrade the posbox, click on the upgrade button. The upgrade will take a few minutes. <b>Do not reboot</b> the PosBox during the upgrade.
-        </p>
-        <p>
-        Latest patch:
+        最新补丁包:
         </p>
         <pre>
 """
@@ -84,7 +77,7 @@ upgrade_template += subprocess.check_output("git --work-tree=/home/pi/dotop/ --g
 upgrade_template += """
         </pre>
         <div class='centering'>
-            <a href='#' id='upgrade'>Upgrade</a>
+            <a href='#' id='upgrade'>升级</a>
         </div>
     </body>
 </html>

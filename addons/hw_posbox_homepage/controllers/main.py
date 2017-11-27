@@ -28,39 +28,32 @@ index_template = """
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>dotop's PosBox</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>智慧企业云-收银机</title>
 """ + index_style + """
     </head>
     <body>
-        <h1>Your PosBox is up and running</h1>
+        <h1>收银机运行中</h1>
         <p>
-        The PosBox is a hardware adapter that allows you to use
-        receipt printers and barcode scanners with dotop's Point of
-        Sale, <b>version 8.0 or later</b>. You can start an <a href='https://www.dotop.com/start'>online free trial</a>,
-        or <a href='https://www.dotop.com/page/download'>download and install</a> it yourself.
+        智慧企业云-收银机与智慧企业零售管理系统相结合，可以与小票打印机、扫描枪、钱箱、称重器等硬件设备连接使用。
         </p>
         <p>
-        For more information on how to setup the Point of Sale with
-        the PosBox, please refer to
-        <a href='https://www.dotop.com/documentation/user/point_of_sale/posbox/index.html'>the manual</a>.
+        如果想要深入了解零售系统，可以联系智慧企业的客服人员。
         </p>
         <p>
-        To see the status of the connected hardware, please refer 
-        to the <a href='/hw_proxy/status'>hardware status page</a>.
+        如果想要查看连接的硬件设备状态，可以点击这里：
+        <a href='/hw_proxy/status'>查看硬件设备状态</a>.
         </p>
         <p>
-        Wi-Fi can be configured by visiting the <a href='/wifi'>Wi-Fi configuration page</a>.
+        如果想要设置无线连接，请点击这里：<a href='/wifi'>无线网络设置</a>.
         </p>
         <p>
-        If you need to grant remote debugging access to a developer, you can do it <a href='/remote_connect'>here</a>.
+        如果想要开启远程调试访问，请点击这里：<a href='/remote_connect'>远程访问设置</a>.
         </p>
         %s
         <p>
-        The PosBox software installed on this posbox is <b>version 16</b>,
-        the posbox version number is independent from dotop. You can upgrade
-        the software on the <a href='/hw_proxy/upgrade/'>upgrade page</a>.
-        </p>
-        <p>For any other question, please contact the dotop support at <a href='mailto:help@dotop.com'>help@dotop.com</a>
+        当前收银机的系统版本为<b>version 10</b>，
+        此版本需要与智慧企业的版本相匹配。可以通过<a href='/hw_proxy/upgrade/'>系统更新</a>，来升级系统。
         </p>
     </body>
 </html>
@@ -72,10 +65,7 @@ class PosboxHomepage(dotop.addons.web.controllers.main.Home):
     def get_hw_screen_message(self):
         return """
 <p>
-    The activate the customer display feature, you will need to reinstall the PosBox software.
-    You can find the latest images on the <a href="http://nightly.dotop.com/master/posbox/">dotop Nightly builds</a> website.
-    Make sure to download at least the version 16.<br/>
-    dotop version 11, or above, is required to use the customer display feature.
+    如果激活客显，需要重新安装收银机系统。必须确认系统的版本为V10上。
 </p>
 """
 
@@ -90,15 +80,15 @@ class PosboxHomepage(dotop.addons.web.controllers.main.Home):
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Wifi configuration</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>无线网络配置</title>
 """ + index_style + """
     </head>
     <body>
-        <h1>Configure wifi</h1>
+        <h1>配置无线</h1>
         <p>
-        Here you can configure how the posbox should connect to wireless networks.
-        Currently only Open and WPA networks are supported. When enabling the persistent checkbox,
-        the chosen network will be saved and the posbox will attempt to connect to it every time it boots.
+        在这里，可以配置收银机的无线网络连接。
+        当前仅支持WAP开放网络。如果勾选【保存】选项，此连接将会被保存，下次收银机会首先尝试此连接。
         </p>
         <form action='/wifi_connect' method='POST'>
             <table>
@@ -124,7 +114,7 @@ class PosboxHomepage(dotop.addons.web.controllers.main.Home):
                 </tr>
                 <tr>
                     <td>
-                        Password:
+                        密码:
                     </td>
                     <td>
                         <input type="password" name="password" placeholder="optional"/>
@@ -132,7 +122,7 @@ class PosboxHomepage(dotop.addons.web.controllers.main.Home):
                 </tr>
                 <tr>
                     <td>
-                        Persistent:
+                        保存:
                     </td>
                     <td>
                         <input type="checkbox" name="persistent"/>
@@ -141,15 +131,15 @@ class PosboxHomepage(dotop.addons.web.controllers.main.Home):
                 <tr>
                     <td/>
                     <td>
-                        <input type="submit" value="connect"/>
+                        <input type="submit" value="开始连接"/>
                     </td>
                 </tr>
             </table>
         </form>
         <p>
-                You can clear the persistent configuration by clicking below:
+                点击下面按钮，可以清除已经保存的网络：
                 <form action='/wifi_clear'>
-                        <input type="submit" value="Clear persistent network configuration"/>
+                        <input type="submit" value="清除保存的网络连接"/>
                 </form>
         </p>
         <form>
@@ -166,12 +156,12 @@ class PosboxHomepage(dotop.addons.web.controllers.main.Home):
                 persistent = ""
 
         subprocess.call(['/home/pi/dotop/addons/point_of_sale/tools/posbox/configuration/connect_to_wifi.sh', essid, password, persistent])
-        return "connecting to " + essid
+        return "开始连接 " + essid
 
     @http.route('/wifi_clear', type='http', auth='none', cors='*')
     def clear_wifi_configuration(self):
         os.system('/home/pi/dotop/addons/point_of_sale/tools/posbox/configuration/clear_wifi_configuration.sh')
-        return "configuration cleared"
+        return "配置已经清除"
 
     @http.route('/remote_connect', type='http', auth='none', cors='*')
     def remote_connect(self):
@@ -179,6 +169,7 @@ class PosboxHomepage(dotop.addons.web.controllers.main.Home):
 <!DOCTYPE HTML>
 <html>
     <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <title>Remote debugging</title>
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <script>
@@ -226,15 +217,13 @@ class PosboxHomepage(dotop.addons.web.controllers.main.Home):
         </style>
     </head>
     <body>
-        <h1>Remote debugging</h1>
+        <h1>远程调试</h1>
         <p class='text-red'>
-        This allows someone to gain remote access to your Posbox, and
-        thus your entire local network. Only enable this for someone
-        you trust.
+        可以允许远程访问收银机，以及整个局域网。仅将此功能开放给信任的人员。
         </p>
         <div class='centering'>
             <input type="text" id="auth_token" size="42" placeholder="Authentication Token"/> <br/>
-            <a id="enable_debug" href="#">Enable remote debugging</a>
+            <a id="enable_debug" href="#">开启远程调试</a>
         </div>
     </body>
 </html>

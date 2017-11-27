@@ -46,7 +46,8 @@ class Proxy(http.Controller):
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>dotop's PosBox</title>
+    	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>智慧企业-收银机</title>
         <style>
         body {
             width: 480px;
@@ -65,8 +66,8 @@ class Proxy(http.Controller):
         </style>
     </head>
     <body>
-        <h1>Hardware Status</h1>
-        <p>The list of enabled drivers and their status</p>
+        <h1>硬件设备状态</h1>
+        <p>设备列表与状态</p>
 """
         statuses = self.get_status()
         for driver in statuses:
@@ -86,8 +87,8 @@ class Proxy(http.Controller):
                 resp += '<li>'+msg+'</li>\n'
             resp += "</ul>\n"
         resp += """
-            <h2>Connected Devices</h2>
-            <p>The list of connected USB devices as seen by the posbox</p>
+            <h2>已连接设备</h2>
+            <p>已连接的USB设备</p>
         """
         devices = commands.getoutput("lsusb").split('\n')
         count   = 0
@@ -100,7 +101,7 @@ class Proxy(http.Controller):
                 count += 1
         
         if count == 0:
-            resp += "<div class='device'>No USB Device Found</div>"
+            resp += "<div class='device'>没有发现USB设备</div>"
 
         resp += "</div>\n</body>\n</html>\n\n"
 
