@@ -194,34 +194,34 @@ class EscposDriver(Thread):
         localips = ['0.0.0.0','127.0.0.1','127.0.1.1']
         hosting_ap = os.system('pgrep hostapd') == 0
         ssid = subprocess.check_output('iwconfig 2>&1 | grep \'ESSID:"\' | sed \'s/.*"\\(.*\\)"/\\1/\'', shell=True).rstrip()
-        mac = subprocess.check_output('ifconfig | grep -B 1 \'inet addr\' | grep -o \'HWaddr .*\' | sed \'s/HWaddr //\'', shell=True).rstrip()
+        mac = subprocess.check_output('ifconfig | grep -B 1 \'ether\' | grep -o \'ether .*\' | sed \'s/ether //\'', shell=True).rstrip()
         #ips =  [ c.split(':')[1].split(' ')[0] for c in commands.getoutput("/sbin/ifconfig").split('\n') if 'inet addr' in c ]
         ##原有字符串拆解格式不正确
         ips = [ c.strip().split(' ')[1] for c in commands.getoutput("/sbin/ifconfig").split('\n') if 'inet ' in c ]
         ips =  [ ip for ip in ips if ip not in localips ] 
         eprint.text('\n\n')
         eprint.set(align='center',type='b',height=2,width=2)
-        eprint.text('PosBox Status\n')
+        eprint.text('收银机信息\n')
         eprint.text('\n')
         eprint.set(align='center')
 
         if hosting_ap:
-            eprint.text('Wireless network:\nPosbox\n\n')
+            eprint.text('无线网络:\nPosbox\n\n')
         elif ssid:
-            eprint.text('Wireless network:\n' + ssid + '\n\n')
+            eprint.text('无线网络:\n' + ssid + '\n\n')
 
         if len(ips) == 0:
             eprint.text('ERROR: Could not connect to LAN\n\nPlease check that the PosBox is correc-\ntly connected with a network cable,\n that the LAN is setup with DHCP, and\nthat network addresses are available')
         elif len(ips) == 1:
-            eprint.text('IP Address:\n'+ips[0]+'\n')
+            eprint.text('IP地址:\n'+ips[0]+'\n')
         else:
-            eprint.text('IP Addresses:\n')
+            eprint.text('IP地址:\n')
             for ip in ips:
                 eprint.text(ip+'\n')
 
         if len(ips) >= 1:
-            eprint.text('\nMAC Address:\n' + mac + '\n')
-            eprint.text('\nHomepage:\nhttp://'+ips[0]+':8069\n')
+            eprint.text('\n网卡地址:\n' + mac + '\n')
+            eprint.text('\n访问地址:\nhttp://'+ips[0]+':8069\n')
 
         eprint.text('\n\n')
         eprint.cut()
