@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 FORCE_HOST_AP="${1}"
-WIRED_IP=$(ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}';)
+WIRED_IP=$(ifconfig eth0 | grep "inet " | awk -F: '{print $2}' | awk '{print $1}';)
 WIFI_NETWORK_FILE="/home/pi/wifi_network.txt"
 
 # if there is no wired ip, attempt to start an AP through wireless interface
@@ -16,6 +16,7 @@ if [ -z "${WIRED_IP}" ] ; then
 
 	# we cannot scan for networks while in Master mode
 	# so first scan and save the networks to a list
+	echo "" > /tmp/scanned_networks.txt
 	iwlist wlan0 scan | grep 'ESSID:' | sed 's/.*ESSID:"\(.*\)"/\1/' > /tmp/scanned_networks.txt
 	
 	# only do it when there is a wireless interface
