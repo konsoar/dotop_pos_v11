@@ -77,7 +77,9 @@ class Usb(Escpos):
                 i += 1
                 if i > 10:
                     return False
-        
+            finally:
+                if self.device:
+                    self.device.close()
             sleep(0.1)
 
     def _raw(self, msg):
