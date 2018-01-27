@@ -91,9 +91,14 @@ class EscposDriver(Thread):
 
     def lockedstart(self):
         with self.lock:
-            if not self.isAlive():
-                self.daemon = True
-                self.start()
+            try:
+                if not self.isAlive():
+                    self.daemon = True
+                    self.start()
+            except Exception,e:
+                    self.__stop()
+                    self.daemon = True
+                    self.start()
     
     def get_escpos_printer(self):
   
