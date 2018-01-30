@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FORCE_HOST_AP="${1}"
+FORCE_HOST_AP="FORCE_HOST_AP"
 WIRED_IP=$(ifconfig eth0 | grep "inet " | awk -F: '{print $1}' | awk '{print $2}';)
 WIFI_NETWORK_FILE="/home/pi/wifi_network.txt"
 
