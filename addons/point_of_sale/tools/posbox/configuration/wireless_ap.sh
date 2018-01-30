@@ -5,7 +5,7 @@ WIRED_IP=$(ifconfig eth0 | grep "inet " | awk -F: '{print $1}' | awk '{print $2}
 WIFI_NETWORK_FILE="/home/pi/wifi_network.txt"
 
 # if there is no wired ip, attempt to start an AP through wireless interface
-if [ -z "${WIRED_IP}" || [ -z "${FORCE_HOST_AP}" ]] ; then
+if [ -z "${WIRED_IP}" || [ !-z "${FORCE_HOST_AP}" ]] ; then
 	logger -t posbox_wireless_ap "No wired IP"
 
 	ifconfig wlan0 down
